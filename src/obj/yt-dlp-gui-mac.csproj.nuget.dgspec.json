@@ -1,0 +1,128 @@
+{
+  "format": 1,
+  "restore": {
+    "/Users/rockenlee/WorkSpace/yt-dlp-gui/yt-dlp-gui-mac/src/yt-dlp-gui-mac.csproj": {}
+  },
+  "projects": {
+    "/Users/rockenlee/WorkSpace/yt-dlp-gui/yt-dlp-gui-mac/src/yt-dlp-gui-mac.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/rockenlee/WorkSpace/yt-dlp-gui/yt-dlp-gui-mac/src/yt-dlp-gui-mac.csproj",
+        "projectName": "yt-dlp-gui-mac",
+        "projectPath": "/Users/rockenlee/WorkSpace/yt-dlp-gui/yt-dlp-gui-mac/src/yt-dlp-gui-mac.csproj",
+        "packagesPath": "/Users/rockenlee/.nuget/packages/",
+        "outputPath": "/Users/rockenlee/WorkSpace/yt-dlp-gui/yt-dlp-gui-mac/src/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/rockenlee/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net9.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net9.0": {
+            "targetAlias": "net9.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.300"
+      },
+      "frameworks": {
+        "net9.0": {
+          "targetAlias": "net9.0",
+          "dependencies": {
+            "Avalonia": {
+              "target": "Package",
+              "version": "[11.0.5, )"
+            },
+            "Avalonia.Desktop": {
+              "target": "Package",
+              "version": "[11.0.5, )"
+            },
+            "Avalonia.Fonts.Inter": {
+              "target": "Package",
+              "version": "[11.0.5, )"
+            },
+            "Avalonia.ReactiveUI": {
+              "target": "Package",
+              "version": "[11.0.5, )"
+            },
+            "Avalonia.Skia": {
+              "target": "Package",
+              "version": "[11.0.5, )"
+            },
+            "Avalonia.Themes.Fluent": {
+              "target": "Package",
+              "version": "[11.0.5, )"
+            },
+            "Markdig": {
+              "target": "Package",
+              "version": "[0.31.0, )"
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.3, )"
+            },
+            "System.Reactive": {
+              "target": "Package",
+              "version": "[6.0.0, )"
+            },
+            "YamlDotNet": {
+              "target": "Package",
+              "version": "[13.0.2, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Runtime.osx-x64",
+              "version": "[9.0.5, 9.0.5]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Runtime.osx-x64",
+              "version": "[9.0.5, 9.0.5]"
+            },
+            {
+              "name": "Microsoft.WindowsDesktop.App.Ref",
+              "version": "[9.0.5, 9.0.5]"
+            }
+          ],
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/x64/sdk/9.0.300/PortableRuntimeIdentifierGraph.json"
+        }
+      },
+      "runtimes": {
+        "osx-x64": {
+          "#import": []
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,293 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="using:yt_dlp_gui_mac.ViewModels"
+        xmlns:models="using:yt_dlp_gui_mac.Models"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600"
+        x:Class="yt_dlp_gui_mac.Views.MainWindow"
+        x:DataType="models:ViewData"
+        Title="yt-dlp GUI for macOS"
+        Width="860" Height="680"
+        Background="#1E1E1E">
+
+    <Grid RowDefinitions="Auto,*,Auto" Margin="16">
+        <!-- Top area - Modern navigation bar style -->
+        <Border Background="#252525" CornerRadius="8" Padding="12" Margin="0,0,0,16">
+            <Grid ColumnDefinitions="Auto,*,Auto">
+                <StackPanel Orientation="Horizontal" Spacing="12" Grid.Column="0">
+                    <Image Source="avares://yt-dlp-gui-mac/Assets/logo.png" Width="32" Height="32"/>
+                    <TextBlock Text="yt-dlp-gui" FontSize="20" Foreground="#B0FF57" VerticalAlignment="Center" FontWeight="SemiBold"/>
+                </StackPanel>
+
+                <Grid Grid.Column="1" ColumnDefinitions="*,Auto,Auto" Margin="16,0,0,0">
+                    <TextBox Name="UrlTextBox" Grid.Column="0" Watermark="Enter video URL here..."
+                             CornerRadius="6" Height="38" FontSize="14" />
+                    <Button Name="MonitorClipboardButton" Grid.Column="1" Content="📋" Width="38" Height="38"
+                            Margin="8,0,0,0" CornerRadius="6" ToolTip.Tip="Enable/Disable Clipboard Monitoring"
+                            Foreground="#B0FF57" Background="#353535" />
+                    <Button Name="AnalyzeButton" Grid.Column="2" Content="Analyze" Width="100" Height="38"
+                            Margin="8,0,0,0" CornerRadius="6" Background="#1E88E5" Foreground="White"
+                            FontWeight="SemiBold" />
+                </Grid>
+            </Grid>
+        </Border>
+
+        <!-- Main content area -->
+        <Grid Grid.Row="1" ColumnDefinitions="3*,1.8*" Margin="0,0,0,16">
+            <!-- Left side: Video information and formats -->
+            <Grid Grid.Column="0" RowDefinitions="Auto,*" Margin="0,0,12,0">
+                <!-- Video information -->
+                <Border Background="#252525" CornerRadius="8" Margin="0,0,0,12">
+                    <TextBox Name="VideoInfoBox" Height="120" IsReadOnly="True" TextWrapping="Wrap"
+                             Background="Transparent" BorderThickness="0" Padding="12"
+                             Foreground="#E0E0E0" FontSize="13"/>
+                </Border>
+
+                <!-- 选项卡控件 -->
+                <Border Grid.Row="1" Background="#252525" CornerRadius="8" Padding="2">
+                    <TabControl Background="Transparent" BorderThickness="0" Padding="0">
+                        <TabControl.Styles>
+                            <Style Selector="TabItem">
+                                <Setter Property="Padding" Value="12,8"/>
+                                <Setter Property="FontWeight" Value="SemiBold"/>
+                                <Setter Property="FontSize" Value="14"/>
+                            </Style>
+                        </TabControl.Styles>
+
+                        <TabItem Header="Formats" Foreground="#B0FF57">
+                            <Border Padding="16,12">
+                                <StackPanel Spacing="16">
+                                    <!-- Video format selection -->
+                                    <Grid ColumnDefinitions="Auto,*,Auto" RowDefinitions="Auto,Auto">
+                                        <TextBlock Text="Video:" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Foreground="#E0E0E0" FontSize="14"/>
+                                        <ComboBox Name="VideoFormatComboBox" Grid.Row="0" Grid.Column="1" Margin="8,0,8,0"
+                                                  HorizontalAlignment="Stretch" Height="36" CornerRadius="4"
+                                                  HorizontalContentAlignment="Left" />
+                                        <Grid Grid.Row="0" Grid.Column="2" Width="80" Height="36">
+                                            <Button Name="VideoDownloadButton" Content="Download" Padding="8,4"
+                                                    HorizontalAlignment="Stretch" VerticalAlignment="Stretch" CornerRadius="4"
+                                                    Background="#4CAF50" Foreground="White"/>
+                                            <ProgressBar Name="VideoDownloadProgress" Value="0" IsVisible="False"
+                                                         Foreground="#4CAF50" Background="Transparent" CornerRadius="4" />
+                                        </Grid>
+                                        <TextBlock Name="VideoInfoText" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2"
+                                                   Margin="8,4,0,0" TextWrapping="Wrap" IsVisible="False" Foreground="#BBBBBB" FontSize="12" />
+                                    </Grid>
+
+                                    <!-- Audio format selection -->
+                                    <Grid ColumnDefinitions="Auto,*,Auto" RowDefinitions="Auto,Auto">
+                                        <TextBlock Text="Audio:" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Foreground="#E0E0E0" FontSize="14"/>
+                                        <ComboBox Name="AudioFormatComboBox" Grid.Row="0" Grid.Column="1" Margin="8,0,8,0"
+                                                  HorizontalAlignment="Stretch" Height="36" CornerRadius="4"
+                                                  HorizontalContentAlignment="Left" />
+                                        <Grid Grid.Row="0" Grid.Column="2" Width="80" Height="36">
+                                            <Button Name="AudioDownloadButton" Content="Download" Padding="8,4"
+                                                    HorizontalAlignment="Stretch" VerticalAlignment="Stretch" CornerRadius="4"
+                                                    Background="#2196F3" Foreground="White"/>
+                                            <ProgressBar Name="AudioDownloadProgress" Value="0" IsVisible="False"
+                                                         Foreground="#2196F3" Background="Transparent" CornerRadius="4" />
+                                        </Grid>
+                                        <TextBlock Name="AudioInfoText" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2"
+                                                   Margin="8,4,0,0" TextWrapping="Wrap" IsVisible="False" Foreground="#BBBBBB" FontSize="12" />
+                                    </Grid>
+
+                                    <!-- Subtitle format selection -->
+                                    <Grid ColumnDefinitions="Auto,*,Auto" RowDefinitions="Auto,Auto">
+                                        <TextBlock Text="Subtitle:" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Foreground="#E0E0E0" FontSize="14"/>
+                                        <ComboBox Name="SubtitleComboBox" Grid.Row="0" Grid.Column="1" Margin="8,0,8,0"
+                                                  HorizontalAlignment="Stretch" Height="36" CornerRadius="4"
+                                                  HorizontalContentAlignment="Left" />
+                                        <Grid Grid.Row="0" Grid.Column="2" Width="80" Height="36">
+                                            <Button Name="SubtitleDownloadButton" Content="Download" Padding="8,4"
+                                                    HorizontalAlignment="Stretch" VerticalAlignment="Stretch" CornerRadius="4"
+                                                    Background="#FF9800" Foreground="White"/>
+                                            <ProgressBar Name="SubtitleDownloadProgress" Value="0" IsVisible="False"
+                                                         Foreground="#FF9800" Background="Transparent" CornerRadius="4" />
+                                        </Grid>
+                                        <TextBlock Name="SubtitleInfoText" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2"
+                                                   Margin="8,4,0,0" TextWrapping="Wrap" IsVisible="False" Foreground="#BBBBBB" FontSize="12" />
+                                    </Grid>
+                                </StackPanel>
+                            </Border>
+                        </TabItem>
+
+                        <TabItem Header="Advanced">
+                            <Border Padding="16,12">
+                                <StackPanel Spacing="16">
+                                    <!-- Advanced options -->
+                                    <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto">
+                                        <TextBlock Text="Extra Parameters:" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center"
+                                                   Margin="0,0,12,0" Foreground="#E0E0E0" FontSize="14"/>
+                                        <TextBox Name="ExtraArgsTextBox" Grid.Row="0" Grid.Column="1" Height="36"
+                                                 Watermark="--extract-audio --audio-format mp3" CornerRadius="4" Margin="0,0,0,12" />
+
+                                        <TextBlock Text="Proxy Settings:" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center"
+                                                   Margin="0,0,12,0" Foreground="#E0E0E0" FontSize="14"/>
+                                        <TextBox Name="ProxyTextBox" Grid.Row="1" Grid.Column="1" Height="36"
+                                                 Watermark="socks5://127.0.0.1:1080" CornerRadius="4" Margin="0,0,0,12" />
+
+                                        <TextBlock Text="Subtitle Languages:" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center"
+                                                   Margin="0,0,12,0" Foreground="#E0E0E0" FontSize="14"/>
+                                        <TextBox Name="SubtitleLangTextBox" Grid.Row="2" Grid.Column="1" Height="36"
+                                                 Text="{Binding SubLang}" Watermark="en.*,ja.*,zh.*" CornerRadius="4" Margin="0,0,0,12" />
+
+                                        <TextBlock Text="Cookie Settings:" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center"
+                                                   Margin="0,0,12,0" Foreground="#E0E0E0" FontSize="14"/>
+                                        <Grid Grid.Row="3" Grid.Column="1" ColumnDefinitions="Auto,*" Margin="0,0,0,12">
+                                            <ComboBox Name="CookieUseComboBox" Grid.Column="0" Width="120" Height="36"
+                                                      SelectedIndex="0" Margin="0,0,8,0">
+                                                <ComboBoxItem Content="When Needed" Tag="WhenNeeded"/>
+                                                <ComboBoxItem Content="Always" Tag="Always"/>
+                                                <ComboBoxItem Content="Ask" Tag="Ask"/>
+                                                <ComboBoxItem Content="Never" Tag="Never"/>
+                                            </ComboBox>
+                                            <ComboBox Name="CookieTypeComboBox" Grid.Column="1" Height="36"
+                                                      SelectedIndex="0">
+                                                <ComboBoxItem Content="Chrome" Tag="Chrome"/>
+                                                <ComboBoxItem Content="Safari" Tag="Safari"/>
+                                                <ComboBoxItem Content="Firefox" Tag="Firefox"/>
+                                                <ComboBoxItem Content="Edge" Tag="Edge"/>
+                                                <ComboBoxItem Content="Opera" Tag="Opera"/>
+                                                <ComboBoxItem Content="Chromium" Tag="Chromium"/>
+                                                <ComboBoxItem Content="Chrome Beta" Tag="Chrome_Beta"/>
+                                            </ComboBox>
+                                        </Grid>
+
+                                        <CheckBox Name="AutoSubtitleCheckBox" Grid.Row="4" Grid.Column="1"
+                                                  Content="Include Auto-generated Subtitles" Foreground="#E0E0E0"
+                                                  IsChecked="True" Margin="0,0,0,16"/>
+
+                                        <StackPanel Orientation="Horizontal" Grid.Row="5" Grid.Column="1" Margin="0,8,0,0"
+                                                    HorizontalAlignment="Right" Spacing="12">
+                                            <Button Name="TestButton" Content="Test" Padding="16,8"
+                                                    Background="#FF9800" Foreground="White" CornerRadius="4"/>
+                                            <Button Name="ResetButton" Content="Reset" Padding="16,8"
+                                                    Background="#F44336" Foreground="White" CornerRadius="4"/>
+                                        </StackPanel>
+                                    </Grid>
+                                </StackPanel>
+                            </Border>
+                        </TabItem>
+
+                        <TabItem Header="Options">
+                            <Border Padding="16,12">
+                                <StackPanel Spacing="16">
+                                    <!-- Filename template -->
+                                    <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto">
+                                        <TextBlock Text="Filename Template:" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center"
+                                                   Margin="0,0,12,0" Foreground="#E0E0E0" FontSize="14"/>
+                                        <TextBox Name="FilenameTemplateTextBox" Grid.Row="0" Grid.Column="1" Height="36"
+                                                 Text="%(title)s.%(ext)s" CornerRadius="4" Margin="0,0,0,12" />
+
+                                        <TextBlock Text="Common Variables:" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center"
+                                                   Margin="0,0,12,12" Foreground="#E0E0E0" FontSize="14"/>
+                                        <Grid Grid.Row="1" Grid.Column="1" ColumnDefinitions="*,Auto" Margin="0,0,0,12">
+                                            <ComboBox Name="VariablesComboBox" Grid.Column="0" Height="36"
+                                                      PlaceholderText="Select a variable to insert..."
+                                                      HorizontalAlignment="Stretch" CornerRadius="4">
+                                                <ComboBoxItem Content="%(title)s - Video Title" Tag="%(title)s"/>
+                                                <ComboBoxItem Content="%(id)s - Video ID" Tag="%(id)s"/>
+                                                <ComboBoxItem Content="%(uploader)s - Uploader" Tag="%(uploader)s"/>
+                                                <ComboBoxItem Content="%(upload_date)s - Upload Date (YYYYMMDD)" Tag="%(upload_date)s"/>
+                                                <ComboBoxItem Content="%(ext)s - File Extension" Tag="%(ext)s"/>
+                                                <ComboBoxItem Content="%(format_id)s - Format ID" Tag="%(format_id)s"/>
+                                                <ComboBoxItem Content="%(channel)s - Channel Name" Tag="%(channel)s"/>
+                                                <ComboBoxItem Content="%(height)s - Video Height" Tag="%(height)s"/>
+                                                <ComboBoxItem Content="%(width)s - Video Width" Tag="%(width)s"/>
+                                                <ComboBoxItem Content="%(fps)s - Frames Per Second" Tag="%(fps)s"/>
+                                                <ComboBoxItem Content="%(acodec)s - Audio Codec" Tag="%(acodec)s"/>
+                                                <ComboBoxItem Content="%(vcodec)s - Video Codec" Tag="%(vcodec)s"/>
+                                            </ComboBox>
+                                            <Button Name="InsertVariableButton" Grid.Column="1" Content="Insert"
+                                                    Margin="8,0,0,0" Width="80" Height="36" CornerRadius="4"
+                                                    Background="#1E88E5" Foreground="White"/>
+                                        </Grid>
+
+                                        <TextBlock Text="Save Location:" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center"
+                                                   Margin="0,0,12,0" Foreground="#E0E0E0" FontSize="14"/>
+                                        <Grid Grid.Row="2" Grid.Column="1" ColumnDefinitions="*,Auto" Margin="0,0,0,12">
+                                            <TextBox Name="SavePathTextBox" Grid.Column="0" Height="36"
+                                                     Text="{Binding TargetPath}" IsReadOnly="True"
+                                                     Margin="0,0,8,0" CornerRadius="4"/>
+                                            <Button Name="BrowseButton" Grid.Column="1" Content="Browse..." Padding="12,6" CornerRadius="4"/>
+                                        </Grid>
+
+                                        <CheckBox Name="OpenFolderAfterDownloadCheckBox" Grid.Row="3" Grid.Column="1"
+                                                  Content="Open Folder After Download" Foreground="#E0E0E0"
+                                                  IsChecked="True" Margin="0,0,0,0"/>
+                                    </Grid>
+                                </StackPanel>
+                            </Border>
+                        </TabItem>
+                    </TabControl>
+                </Border>
+            </Grid>
+
+            <!-- Right side: Media player and actions -->
+            <Border Grid.Column="1" Background="#252525" CornerRadius="8" Padding="16">
+                <Grid RowDefinitions="Auto,Auto,*">
+                    <!-- Media player area -->
+                    <Border Grid.Row="0" Width="300" Height="200" Background="#1A1A1A"
+                            CornerRadius="8" Margin="0,0,0,12" HorizontalAlignment="Center">
+                        <Grid>
+                            <!-- Media player will be added programmatically -->
+                            <Panel Name="MediaPlayerContainer">
+                                <!-- Fallback to thumbnail when media player is not available -->
+                                <Image Name="ThumbnailImage" Stretch="Uniform"/>
+                                <TextBlock Text="Media Preview" Foreground="#666666" FontSize="14"
+                                           HorizontalAlignment="Center" VerticalAlignment="Center"
+                                           IsVisible="{Binding #ThumbnailImage.Source, Converter={x:Static ObjectConverters.IsNull}}"/>
+                            </Panel>
+
+                            <!-- Media controls -->
+                            <Border VerticalAlignment="Bottom" Background="#80000000" Padding="8,4">
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="12">
+                                    <Button Name="PlayPauseButton" Content="▶" Width="32" Height="32"
+                                            Background="Transparent" Foreground="White" CornerRadius="16"/>
+                                    <Slider Name="MediaPositionSlider" Width="180" VerticalAlignment="Center"/>
+                                    <Button Name="MuteButton" Content="🔊" Width="32" Height="32"
+                                            Background="Transparent" Foreground="White" CornerRadius="16"/>
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+                    </Border>
+
+                    <!-- Media options -->
+                    <StackPanel Grid.Row="1" Margin="0,0,0,12">
+                        <Grid ColumnDefinitions="*">
+                            <CheckBox Name="DownloadThumbnailCheckBox" Content="Download Thumbnail"
+                                      Foreground="#E0E0E0" Margin="0,4,0,0"/>
+                        </Grid>
+                        <TextBlock Name="MediaDurationText" HorizontalAlignment="Center"
+                                   Foreground="#BBBBBB" FontSize="12" Margin="0,8,0,0"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </Grid>
+
+        <!-- Bottom action area -->
+        <Border Grid.Row="2" Background="#252525" CornerRadius="8" Padding="16">
+            <Grid ColumnDefinitions="*,Auto">
+                <!-- Left side: File information -->
+                <Grid Grid.Column="0" ColumnDefinitions="*,Auto,Auto" VerticalAlignment="Center">
+                    <TextBox Name="TargetFileNameBox" Grid.Column="0" Height="36" IsReadOnly="True"
+                             Background="#2A2A2A" CornerRadius="4"/>
+                    <Button Name="OpenFolderButton" Grid.Column="1" Content="📂" Width="36" Height="36"
+                            Margin="8,0,0,0" CornerRadius="4" Background="#353535"/>
+                    <Button Name="BottomBrowseButton" Grid.Column="2" Content="Browse" Width="80" Height="36"
+                            Margin="8,0,0,0" CornerRadius="4" Background="#353535" Foreground="#E0E0E0"/>
+                </Grid>
+
+                <!-- Right side: Main download button -->
+                <Grid Grid.Column="1" Width="120" Height="36" Margin="16,0,0,0">
+                    <Button Name="DownloadButton" Content="Download" FontWeight="SemiBold"
+                            HorizontalAlignment="Stretch" VerticalAlignment="Stretch" CornerRadius="4"
+                            Background="#4CAF50" Foreground="White"/>
+                    <ProgressBar Name="MainDownloadProgress" Value="0" IsVisible="False"
+                                Foreground="#4CAF50" Background="Transparent" CornerRadius="4" />
+                </Grid>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>

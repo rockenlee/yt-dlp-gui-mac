@@ -1,0 +1,5 @@
+/Users/rockenlee/WorkSpace/yt-dlp-gui/yt-dlp-gui-mac-app/yt-dlp-gui.app/Contents/MacOS/yt-dlp-gui-mac.pdb
+/Users/rockenlee/WorkSpace/yt-dlp-gui/yt-dlp-gui-mac-app/yt-dlp-gui.app/Contents/MacOS/libAvaloniaNative.dylib
+/Users/rockenlee/WorkSpace/yt-dlp-gui/yt-dlp-gui-mac-app/yt-dlp-gui.app/Contents/MacOS/libHarfBuzzSharp.dylib
+/Users/rockenlee/WorkSpace/yt-dlp-gui/yt-dlp-gui-mac-app/yt-dlp-gui.app/Contents/MacOS/libSkiaSharp.dylib
+/Users/rockenlee/WorkSpace/yt-dlp-gui/yt-dlp-gui-mac-app/yt-dlp-gui.app/Contents/MacOS/yt-dlp-gui-mac
